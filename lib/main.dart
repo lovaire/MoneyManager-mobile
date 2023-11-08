@@ -64,6 +64,11 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _showSnackbar(String message) {
+    final snackBar = SnackBar(content: Text(message));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -125,11 +130,26 @@ class _MyAppState extends State<MyApp> {
                 ],
               ),
               ElevatedButton(
-                onPressed: tambahItem,
+                onPressed: () {
+                  tambahItem();
+                  _showSnackbar('Kamu telah menekan tombol Tambah Item');
+                },
                 child: Text('Simpan Catatan'),
               ),
+              ElevatedButton(
+                onPressed: () {
+                  _showSnackbar('Kamu telah menekan tombol Lihat Item');
+                },
+                child: Text('Lihat Item'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  _showSnackbar('Kamu telah menekan tombol Logout');
+                },
+                child: Text('Logout'),
+              ),
               SizedBox(height: 20),
-              Text('Total: $totalAmount'),
+              Text('Saldo Anda: $totalAmount'),
               SizedBox(height: 20),
               Expanded(
                 child: ListView.builder(
