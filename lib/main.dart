@@ -11,11 +11,12 @@ class KeuanganItem {
   int amount;
   DateTime tanggal;
 
-  KeuanganItem(
-      {required this.nama,
-      required this.kategori,
-      required this.amount,
-      required this.tanggal});
+  KeuanganItem({
+    required this.nama,
+    required this.kategori,
+    required this.amount,
+    required this.tanggal,
+  });
 }
 
 class MyApp extends StatefulWidget {
@@ -158,9 +159,13 @@ class _MyAppState extends State<MyApp> {
                     KeuanganItem item = items[index];
                     return Card(
                       child: ListTile(
+                        onTap: () {
+                          _showSnackbar('Kamu telah menekan item ${item.nama}');
+                        },
                         title: Text(item.nama),
                         subtitle: Text(
-                            '${item.kategori} - ${DateFormat('dd-MM-yyyy').format(item.tanggal)}'),
+                          '${item.kategori} - ${DateFormat('dd-MM-yyyy').format(item.tanggal)}',
+                        ),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
