@@ -1,189 +1,154 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:moneymanager/widgets/left_drawer.dart';
+import 'package:moneymanager/moneyform.dart';
+import 'package:moneymanager/widgets/moneycard.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class KeuanganItem {
-  String nama;
-  String kategori;
-  int amount;
-  DateTime tanggal;
+class Transaction {
+  final String name;
+  final String category;
+  final int amount;
+  final String description;
+  final DateTime date;
 
-  KeuanganItem({
-    required this.nama,
-    required this.kategori,
+  Transaction({
+    required this.name,
+    required this.category,
     required this.amount,
-    required this.tanggal,
+    required this.description,
+    required this.date,
   });
 }
 
-class MyApp extends StatefulWidget {
+class AddForm extends StatelessWidget {
+  final void Function(Transaction) addTransaction;
+  const AddForm({Key? key, required this.addTransaction}) : super(key: key);
+
   @override
-  _MyAppState createState() => _MyAppState();
+  Widget build(BuildContext context) {
+    return AddForm(addTransaction: addTransaction); // Pass it directly
+  }
 }
 
-class _MyAppState extends State<MyApp> {
-  List<KeuanganItem> items = [];
-  int totalAmount = 0;
-
-  TextEditingController namaController = TextEditingController();
-  String selectedKategori = "Masuk";
-  TextEditingController amountController = TextEditingController();
-  DateTime tanggal = DateTime.now();
-
-  void tambahItem() {
-    String nama = namaController.text;
-    String kategori = selectedKategori;
-    int amount = int.tryParse(amountController.text) ?? 0;
-
-    if (nama.isNotEmpty && amount > 0) {
-      KeuanganItem item = KeuanganItem(
-        nama: nama,
-        kategori: kategori,
-        amount: amount,
-        tanggal: tanggal,
-      );
-      setState(() {
-        items.add(item);
-        totalAmount += (kategori == "Masuk") ? amount : -amount;
-      });
-
-      namaController.clear();
-      amountController.clear();
-      tanggal = DateTime.now();
-    }
-  }
-
-  void hapusItem(int index) {
-    setState(() {
-      totalAmount -= (items[index].kategori == "Masuk")
-          ? items[index].amount
-          : -items[index].amount;
-      items.removeAt(index);
-    });
-  }
-
-  void _showSnackbar(String message) {
-    final snackBar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('MoMa Money Manager - bykyye.corp'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                controller: namaController,
-                decoration: InputDecoration(labelText: 'Nama'),
-              ),
-              DropdownButton<String>(
-                value: selectedKategori,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedKategori = newValue!;
-                  });
-                },
-                items: <String>['Masuk', 'Keluar']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-              TextFormField(
-                controller: amountController,
-                decoration: InputDecoration(labelText: 'Jumlah'),
-                keyboardType: TextInputType.number,
-              ),
-              Row(
-                children: <Widget>[
-                  Text(
-                    'Tanggal: ${DateFormat('dd-MM-yyyy').format(tanggal)}',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      DateTime? selectedDate = await showDatePicker(
-                        context: context,
-                        initialDate: tanggal,
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2101),
-                      );
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+        useMaterial3: true,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
 
-                      if (selectedDate != null) {
-                        setState(() {
-                          tanggal = selectedDate;
-                        });
-                      }
-                    },
-                    child: Text('Ubah Tanggal'),
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  List<Transaction> transactions = [];
+
+  void addTransaction(Transaction transaction) {
+    setState(() {
+      transactions.add(transaction);
+    });
+  }
+
+  void deleteTransaction(int index) {
+    setState(() {
+      transactions.removeAt(index);
+    });
+  }
+
+  int calculateTotalSaldo() {
+    int totalSaldo = 0;
+    for (var transaction in transactions) {
+      if (transaction.category == 'Masuk') {
+        totalSaldo += transaction.amount;
+      } else {
+        totalSaldo -= transaction.amount;
+      }
+    }
+    return totalSaldo;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Center(
+          child: Text(
+            'Money Manager',
+          ),
+        ),
+        backgroundColor: Colors.indigo,
+        foregroundColor: Colors.white,
+      ),
+      drawer: const LeftDrawer(),
+      body: Column(
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddForm(
+                    addTransaction: addTransaction,
+                  ),
+                ),
+              );
+            },
+            child: Text('Tambah Transaksi'),
+          ),
+          AddForm(addTransaction: addTransaction),
+          SizedBox(height: 20),
+          Text(
+            'Total Saldo: ${calculateTotalSaldo()}',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 20),
+          DataTable(
+            columns: const [
+              DataColumn(label: Text('Nama Transaksi')),
+              DataColumn(label: Text('Kategori')),
+              DataColumn(label: Text('Jumlah')),
+              DataColumn(label: Text('Deskripsi')),
+              DataColumn(label: Text('Tanggal')),
+              DataColumn(label: Text('Aksi')),
+            ],
+            rows: List<DataRow>.generate(
+              transactions.length,
+              (index) => DataRow(
+                cells: [
+                  DataCell(Text(transactions[index].name)),
+                  DataCell(Text(transactions[index].category)),
+                  DataCell(Text(transactions[index].amount.toString())),
+                  DataCell(Text(transactions[index].description)),
+                  DataCell(Text(DateFormat('dd-MM-yyyy')
+                      .format(transactions[index].date))),
+                  DataCell(
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () => deleteTransaction(index),
+                    ),
                   ),
                 ],
               ),
-              ElevatedButton(
-                onPressed: () {
-                  tambahItem();
-                  _showSnackbar('Kamu telah menekan tombol Tambah Item');
-                },
-                child: Text('Simpan Catatan'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  _showSnackbar('Kamu telah menekan tombol Lihat Item');
-                },
-                child: Text('Lihat Item'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  _showSnackbar('Kamu telah menekan tombol Logout');
-                },
-                child: Text('Logout'),
-              ),
-              SizedBox(height: 20),
-              Text('Saldo Anda: $totalAmount'),
-              SizedBox(height: 20),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    KeuanganItem item = items[index];
-                    return Card(
-                      child: ListTile(
-                        onTap: () {
-                          _showSnackbar('Kamu telah menekan item ${item.nama}');
-                        },
-                        title: Text(item.nama),
-                        subtitle: Text(
-                          '${item.kategori} - ${DateFormat('dd-MM-yyyy').format(item.tanggal)}',
-                        ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text('Rp ${item.amount}'),
-                            IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () => hapusItem(index),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
