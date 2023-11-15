@@ -52,3 +52,17 @@ h. Saya menambahkan SnackBar saat tombol "Tambah Item," "Lihat Item," atau "Logo
 
 Tugas 8
 
+1. - Navigator.push(): Metode ini digunakan untuk menambahkan rute baru ke atas rute saat ini, sehingga halaman baru ditampilkan di atas halaman sebelumnya. 
+
+- Navigator.pushReplacement(): Metode ini menghapus rute saat ini dan menggantinya dengan rute baru. 
+
+2. - Row dan Column: Digunakan untuk menyusun widget secara horizontal (Row) atau vertikal (Column).
+   - Container: Widget yang menggabungkan penempatan, dan widget ukuran.
+   - Padding: Widget yang memberikan batasan pada child-nya.
+
+3. - TextFormField: Digunakan untuk menerima input teks dari pengguna.
+   - Checkbox: Digunakan untuk menerima input boolean (benar atau salah) dari pengguna.
+   - RadioButton: Digunakan untuk menerima pilihan dari sekelompok pilihan.
+   - Slider: Digunakan untuk menerima input berupa nilai dalam rentang tertentu.
+   - Button: Digunakan untuk menerima aksi dari pengguna, seperti mengirim form.
+

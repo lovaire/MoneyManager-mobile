@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moneymanager/menu.dart';
+import 'package:moneymanager/screens/menu.dart';
 
 void main() {
   runApp(const MyApp());

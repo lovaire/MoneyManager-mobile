@@ -1,7 +1,7 @@
 // moneyform.dart
 import 'package:flutter/material.dart';
 import 'package:moneymanager/widgets/left_drawer.dart';
-import 'package:moneymanager/moneynote.dart';
+import 'package:moneymanager/screens/moneynote.dart';
 
 class MoneyForm extends StatefulWidget {
   const MoneyForm({super.key});
