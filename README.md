@@ -49,3 +49,6 @@ f. Saya menggunakan ListView.builder untuk menampilkan daftar item keuangan deng
 g. Saya menambahkan tombol hapus untuk setiap item keuangan dengan IconButton.
 
 h. Saya menambahkan SnackBar saat tombol "Tambah Item," "Lihat Item," atau "Logout" ditekan.
+
+Tugas 8
+

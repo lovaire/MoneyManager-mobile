@@ -13,12 +13,12 @@ class LeftDrawer extends StatelessWidget {
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.indigo,
+              color: Colors.blue,
             ),
             child: Column(
               children: [
                 Text(
-                  'Shopping List',
+                  'MoMa Money Manager',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
@@ -28,7 +28,7 @@ class LeftDrawer extends StatelessWidget {
                 ),
                 Padding(padding: EdgeInsets.all(10)),
                 Text(
-                  "Catat seluruh keperluan belanjamu di sini!",
+                  "Permudah Nabung!",
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.white,
@@ -51,8 +51,8 @@ class LeftDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.add_shopping_cart),
-            title: const Text('Tambah Produk'),
+            leading: const Icon(Icons.money),
+            title: const Text('Tambah Catatan'),
             onTap: () {
               Navigator.pushReplacement(
                 context,

@@ -1,6 +1,7 @@
+// moneyform.dart
 import 'package:flutter/material.dart';
 import 'package:moneymanager/widgets/left_drawer.dart';
-
+import 'package:moneymanager/moneynote.dart';
 
 class MoneyForm extends StatefulWidget {
   const MoneyForm({super.key});
@@ -25,7 +26,7 @@ class _MoneyFormState extends State<MoneyForm> {
             'Form Transaksi Keuangan',
           ),
         ),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
       ),
       drawer: const LeftDrawer(),
@@ -131,36 +132,22 @@ class _MoneyFormState extends State<MoneyForm> {
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.indigo),
+                      backgroundColor: MaterialStateProperty.all(Colors.blue),
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Transaksi berhasil tersimpan'),
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Nama Transaksi: $_name'),
-                                    Text('Kategori: $_category'),
-                                    Text('Jumlah: $_amount'),
-                                    Text('Deskripsi: $_description'),
-                                  ],
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: const Text('OK'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
-                            );
-                          },
+                        // Navigate to MoneyNote after successful transaction
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MoneyNote(
+                              name: _name,
+                              date: DateTime.now(),
+                              amount: _amount,
+                              description: _description,
+                              
+                            ),
+                          ),
                         );
                       }
                       _formKey.currentState!.reset();

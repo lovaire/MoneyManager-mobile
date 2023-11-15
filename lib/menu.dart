@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:moneymanager/widgets/left_drawer.dart';
 import 'package:moneymanager/widgets/moneycard.dart';
+import 'package:moneymanager/moneyform.dart';
+import 'package:moneymanager/moneynote.dart';
 
 class MoneyFormPage extends StatelessWidget {
   @override
@@ -12,8 +14,8 @@ class MoneyFormPage extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
   final List<ShopItem> items = [
-    ShopItem("Lihat Produk", Icons.checklist),
-    ShopItem("Tambah Produk", Icons.add_shopping_cart),
+    ShopItem("Lihat Catatan", Icons.note),
+    ShopItem("Tambah Catatan", Icons.euro_symbol_sharp),
     ShopItem("Logout", Icons.logout),
   ];
   @override
@@ -21,12 +23,12 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Shopping List',
+          'MoMa Money Manager',
           style: TextStyle(
             color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
       ),
       drawer: const LeftDrawer(),
@@ -41,7 +43,7 @@ class MyHomePage extends StatelessWidget {
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                 // Widget Text untuk menampilkan tulisan dengan alignment center dan style yang sesuai
                 child: Text(
-                  'PBP Shop', // Text yang menandakan toko
+                  'MoMa Money Manager',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
@@ -79,7 +81,7 @@ class AddForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.indigo,
+      color: Colors.blue,
       child: InkWell(
         // Area responsive terhadap sentuhan
         onTap: () {
@@ -88,11 +90,17 @@ class AddForm extends StatelessWidget {
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
                 content: Text("Kamu telah menekan tombol ${item.name}!")));
-          if (item.name == "Tambah Produk") {
+          if (item.name == "Tambah Catatan") {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MoneyFormPage(),
+                  builder: (context) => MoneyForm(),
+                ));
+          } else if (item.name == "Lihat Catatan") {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MoneyNote(),
                 ));
           }
         },
