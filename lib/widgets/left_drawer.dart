@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:moneymanager/main.dart%20%20';
-import 'package:moneymanager/menu.dart';
+import 'package:moneymanager/main.dart';
+import 'package:moneymanager/screens/list_money.dart';
 import 'package:moneymanager/screens/moneyform.dart';
+
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({Key? key});
@@ -59,6 +60,17 @@ class LeftDrawer extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => MoneyForm(),
                 ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.euro_symbol),
+            title: const Text('Daftar Catatan'),
+            onTap: () {
+              // Route menu ke halaman produk
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MoneyPage()),
               );
             },
           ),

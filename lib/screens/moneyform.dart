@@ -1,7 +1,11 @@
 // moneyform.dart
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:moneymanager/screens/menu.dart';
 import 'package:moneymanager/widgets/left_drawer.dart';
-import 'package:moneymanager/screens/moneynote.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 class MoneyForm extends StatefulWidget {
   const MoneyForm({super.key});
@@ -19,6 +23,7 @@ class _MoneyFormState extends State<MoneyForm> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -134,23 +139,35 @@ class _MoneyFormState extends State<MoneyForm> {
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.blue),
                     ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Navigate to MoneyNote after successful transaction
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MoneyNote(
-                              name: _name,
-                              date: DateTime.now(),
-                              amount: _amount,
-                              description: _description,
-                              
-                            ),
-                          ),
-                        );
-                      }
-                      _formKey.currentState!.reset();
+                    onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                            // Kirim ke Django dan tunggu respons
+                            // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+                            final response = await request.postJson(
+                            "http:// http://127.0.0.1:8000/create-flutter/",
+                            jsonEncode(<String, String>{
+                                'name': _name,
+                                'price': _amount.toString(),
+                                'description': _description,
+                                // TODO: Sesuaikan field data sesuai dengan aplikasimu
+                            }));
+                            if (response['status'] == 'success') {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                content: Text("Produk baru berhasil disimpan!"),
+                                ));
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => MyHomePage()),
+                                );
+                            } else {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                    content:
+                                        Text("Terdapat kesalahan, silakan coba lagi."),
+                                ));
+                            }
+                        }
                     },
                     child: const Text(
                       "Save",

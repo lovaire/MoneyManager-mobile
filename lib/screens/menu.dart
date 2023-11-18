@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:moneymanager/screens/list_money.dart';
 import 'package:moneymanager/widgets/left_drawer.dart';
 import 'package:moneymanager/widgets/moneycard.dart';
 import 'package:moneymanager/screens/moneyform.dart';
-import 'package:moneymanager/screens/moneynote.dart';
+
 
 class MoneyFormPage extends StatelessWidget {
   @override
@@ -100,7 +101,7 @@ class AddForm extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MoneyNote(),
+                  builder: (context) => MoneyPage(),
                 ));
           }
         },
