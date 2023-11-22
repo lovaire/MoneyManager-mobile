@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:moneymanager/main.dart';
 import 'package:moneymanager/screens/list_money.dart';
 import 'package:moneymanager/screens/moneyform.dart';
-
+import 'package:moneymanager/screens/menu.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({Key? key});
@@ -46,7 +45,7 @@ class LeftDrawer extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MyApp(),
+                  builder: (context) => MyHomePage(),
                 ),
               );
             },

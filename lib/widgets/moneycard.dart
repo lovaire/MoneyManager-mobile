@@ -31,17 +31,16 @@ class ShopCard extends StatelessWidget {
                 content: Text("Kamu telah menekan tombol ${item.name}!")));
 
           // Navigate ke route yang sesuai (tergantung jenis tombol)
-          if (item.name == "Tambah Produk") {
+          if (item.name == "Tambah Catatan") {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
               return const MoneyForm();
             }));
-          } else if (item.name == "Lihat Produk") {
+          } else if (item.name == "Lihat Catatan") {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const MoneyPage()));
           } else if (item.name == "Logout") {
-            final response = await request.logout(
-                // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
-                "https://moneymanager.lovaire.com/auth/logout/");
+            final response = await request
+                .logout("https://moneymanager.lovaire.com/auth/logout/");
             String message = response["message"];
             if (response['status']) {
               String uname = response["username"];

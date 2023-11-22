@@ -66,3 +66,23 @@ Tugas 8
    - Slider: Digunakan untuk menerima input berupa nilai dalam rentang tertentu.
    - Button: Digunakan untuk menerima aksi dari pengguna, seperti mengirim form.
 
+
+Tugas 9
+
+1. Kita bisa melakukan pengambilan data JSON tanpa membuat model terlebih dahulu. Namun, dengan membuat model akan lebih memudahkan untuk dibaca dan identifikasi bug. 
+
+2. Fungsi CookieRequest: ookie  digunakan untuk menyimpan informasi sesi pengguna. Misalnya, setelah pengguna berhasil login, ID sesi dapat disimpan dalam cookie dan dikirim kembali ke server dalam setiap request berikutnya, sehingga server dapat mengenali pengguna tersebut.
+
+3.Mekanisme Pengambilan Data dari JSON: Untuk mengambil data dari JSON dan menampilkannya di Flutter, kita biasanya melakukan beberapa langkah berikut:
+    - Melakukan HTTP request untuk mendapatkan data JSON dari server.
+    - Mengurai (parsing) data JSON menjadi struktur data yang dapat digunakan oleh Flutter, seperti `Map` 
+    - Mengubah data ini menjadi model (jika model telah dibuat).
+    - Menampilkan data ini di widget Flutter.
+
+4. Mekanisme Autentikasi dari Flutter ke Django: Proses autentikasi biasanya melibatkan langkah-langkah berikut:
+    - Pengguna memasukkan data akun (misalnya, username dan password) di aplikasi Flutter.
+    - Aplikasi Flutter mengirimkan data ini ke server Django melalui HTTP request.
+    - Server Django memverifikasi data ini. Jika data valid, server akan membuat sesi untuk pengguna dan mengirimkan ID sesi ini kembali ke aplikasi dalam bentuk cookie atau token.
+    - Aplikasi Flutter menyimpan ID sesi ini dan menggunakannya untuk setiap request berikutnya, sehingga server dapat mengenali pengguna.
+    - Setelah pengguna berhasil login, menu atau fitur tertentu dapat ditampilkan di aplikasi Flutter.
+
