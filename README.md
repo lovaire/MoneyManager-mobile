@@ -85,4 +85,6 @@ Tugas 9
     - Server Django memverifikasi data ini. Jika data valid, server akan membuat sesi untuk pengguna dan mengirimkan ID sesi ini kembali ke aplikasi dalam bentuk cookie atau token.
     - Aplikasi Flutter menyimpan ID sesi ini dan menggunakannya untuk setiap request berikutnya, sehingga server dapat mengenali pengguna.
     - Setelah pengguna berhasil login, menu atau fitur tertentu dapat ditampilkan di aplikasi Flutter.
+  
+5. Appbar, Gridview, menampilkan data dengan bingkai, drawer
 
